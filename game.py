@@ -7,6 +7,11 @@ from dataclasses import dataclass
 
 
 class Key:
+    """
+    Key object holds global data for initializing a piano by defining it's keys.
+    Each key instance represent a single piano key, and have an assciated note property.
+    """
+
     white_key_path: Path = Path("assets", "white.png")
     black_key_path: Path = Path("assets", "black.png")
     white_key_pressed_path: Path = Path("assets", "white_pressed.png")
@@ -27,7 +32,9 @@ class Key:
     def __init__(self, is_white: bool) -> None:
         self.is_white: bool = is_white
         self.is_pressed: bool = False
-        self.hitbox: pg.Rect = self.get_sprite().get_rect()
+        self.hitbox: pg.Rect = (
+            self.get_sprite().get_rect().inflate(self.white_keys_padding_pixels, 0)
+        )
         self.position: Vector2
         self.note: str
 
@@ -44,10 +51,21 @@ class Key:
                 return self.black_key
 
     def sync_hitbox(self) -> None:
+        """
+        This need to be called everytime a piano key position is set,
+        to have it's hitbox set to the new position.
+        """
+
         self.hitbox.topleft = (int(self.position.x), int(self.position.y))
 
     @classmethod
     def convert_alpha(cls) -> None:
+        """
+        This method helps for pygame initialization order problem.
+        The window needs to know the size of the key sprite to be called,
+        but the convert_alpha method needs the window to be initialized.
+        """
+
         cls.white_key.convert_alpha()
         cls.black_key.convert_alpha()
 
@@ -64,40 +82,53 @@ class RuntimeContext:
 
 
 class Game:
-    def __init__(self) -> None:
-        self.note_played: str = ""
+    """
+    Game holds and execute the pygame logic to run the piano app.
 
-    def main(self) -> None:
+    :param octaves_to_display: How many octaves to display
+    """
+
+    def __init__(self, octaves_to_diplay: int) -> None:
         pg.init()
         pg.display.set_caption("Buzzer Piano")
-        OCTAVES_TO_DISPLAY: int = 3
-        screen: pg.Surface = self.init_screen(OCTAVES_TO_DISPLAY)
+        self.OCTAVES_TO_DISPLAY: int = octaves_to_diplay
+        self.screen: pg.Surface = self.init_screen(self.OCTAVES_TO_DISPLAY)
 
-        max_fps: int = 120
-        clock: pg.time.Clock = pg.time.Clock()
+        self.MAX_FPS: int = 120
+        self.clock: pg.time.Clock = pg.time.Clock()
 
-        keys: list[Key] = []
-        self.keyboard_display_init(OCTAVES_TO_DISPLAY, keys)
-        white_keys: list[Key] = []
-        black_keys: list[Key] = []
-        for key in keys:
+        self.keys: list[Key] = []
+        self.keyboard_display_init(self.OCTAVES_TO_DISPLAY, self.keys)
+        self.white_keys: list[Key] = []
+        self.black_keys: list[Key] = []
+
+        for key in self.keys:
             if key.is_white:
-                white_keys.append(key)
+                self.white_keys.append(key)
             else:
-                black_keys.append(key)
+                self.black_keys.append(key)
 
-        is_running: bool = True
-        while is_running:
-            screen.fill("black")
-            event_res: dict[Any, Any] = self.event_handler()
-            is_running = event_res["is_running"]
+        self.is_running: bool = True
 
-            dt: float = clock.tick(max_fps) / 1000.0
+    def run(self) -> str | None:
+        """
+        Main loop for the game.
 
-            self.get_key(white_keys, black_keys)
+        :return: Returns the note played by the piano.
+        :rtype: str | None
+        """
+        self.screen.fill("black")
+        event_res: dict[Any, Any] = self.event_handler()
+        self.is_running = event_res["is_running"]
 
-            self.update(keys, screen)
-            self.auto_sync(keys)
+        dt: float = self.clock.tick(self.MAX_FPS) / 1000.0
+
+        note = self.get_note(self.white_keys, self.black_keys)
+
+        self.update(self.keys, self.screen)
+        self.auto_sync(self.keys)
+
+        return note
 
     def init_screen(self, octaves_to_display: int) -> pg.Surface:
         window_size: Vector2 = Vector2(
@@ -107,35 +138,49 @@ class Game:
 
         return pg.display.set_mode(window_size)
 
-    def get_key(self, white_keys_list: list[Key], black_keys_list: list[Key]) -> None:
+    def get_note(
+        self, white_keys_list: list[Key], black_keys_list: list[Key]
+    ) -> str | None:
         mouse_position: tuple[int, int] = pg.mouse.get_pos()
         lmb_pressed: bool = pg.mouse.get_pressed()[0]
+
+        all_keys: list[Key] = white_keys_list + black_keys_list
+
+        for key in all_keys:
+            key.is_pressed = False
 
         for key in black_keys_list:
             if key.hitbox.collidepoint(mouse_position) and lmb_pressed:
                 key.is_pressed = True
-                print(key.note)
-                return
-            else:
-                key.is_pressed = False
+                return key.note
 
         for key in white_keys_list:
             if key.hitbox.collidepoint(mouse_position) and lmb_pressed:
                 key.is_pressed = True
-                print(key.note)
-                return
-            else:
-                key.is_pressed = False
+                return key.note
 
-    def update(self, actors: list[Key], screen: pg.Surface) -> None:
-        self.auto_blit(actors, screen)
-        pg.display.update()
+    def update(self, keys: list[Key], screen: pg.Surface) -> None:
+        """
+        Update all sprites in the keys list.
 
-    def auto_blit(self, keys: list[Key], screen: pg.Surface) -> None:
+        :param keys: List of all the keys objects
+        :type keys: list[Key]
+        :param screen: Surface object to display the keys
+        :type screen: pg.Surface
+        """
+
         for key in keys:
             screen.blit(key.get_sprite(), key.position)
 
+        pg.display.update()
+
     def auto_sync(self, keys: list[Key]) -> None:
+        """
+        Automatically calls the sync_hitbox method of each key in keys list.
+
+        :param keys: List of all the keys hitbox to update
+        :type keys: list[Key]
+        """
         for key in keys:
             key.sync_hitbox()
 
@@ -153,6 +198,16 @@ class Game:
     def keyboard_display_init(
         self, octaves_to_display: int, keys_list: list[Key]
     ) -> None:
+        """
+        Creates the layout of the piano, by creating all the keys objects
+        and populates the keys list.
+
+        :param octaves_to_display: How many octaves will the piano have
+        :type octaves_to_display: int
+        :param keys_list: List of keys to populate
+        :type keys_list: list[Key]
+        """
+
         octave_layout = (
             "w",
             "b",
@@ -168,6 +223,7 @@ class Game:
             "w",
         )
 
+        # all white keys need to be drawn first
         white_index: int = 0
         for octave_index in range(octaves_to_display):
             for key in octave_layout:
@@ -211,7 +267,9 @@ class Game:
 if __name__ == "__main__":
     color_print("green", "Starting buzzer piano!")
     try:
-        Game().main()
+        game: Game = Game(octaves_to_diplay=3)
+        while game.is_running:
+            print(game.run())
         pg.quit()
     except KeyboardInterrupt:
         color_print("red", "\nKeyboard Interrupt...")
