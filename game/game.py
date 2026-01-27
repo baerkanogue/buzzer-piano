@@ -1,7 +1,7 @@
 import pygame as pg
 from pygame.math import Vector2
 from pathlib import Path
-from helpers import *
+from colorama import Fore
 from typing import Any
 from dataclasses import dataclass
 
@@ -12,10 +12,10 @@ class Key:
     Each key instance represent a single piano key, and have an assciated note property.
     """
 
-    white_key_path: Path = Path("assets", "white.png")
-    black_key_path: Path = Path("assets", "black.png")
-    white_key_pressed_path: Path = Path("assets", "white_pressed.png")
-    black_key_pressed_path: Path = Path("assets", "black_pressed.png")
+    white_key_path: Path = Path("game", "assets", "white.png")
+    black_key_path: Path = Path("game", "assets", "black.png")
+    white_key_pressed_path: Path = Path("game", "assets", "white_pressed.png")
+    black_key_pressed_path: Path = Path("game", "assets", "black_pressed.png")
 
     white_key: pg.Surface = pg.image.load(white_key_path)
     black_key: pg.Surface = pg.image.load(black_key_path)
@@ -265,12 +265,12 @@ class Game:
 
 
 if __name__ == "__main__":
-    color_print("green", "Starting buzzer piano!")
+    print(f"{Fore.GREEN}Starting buzzer piano!{Fore.RESET}")
     try:
         game: Game = Game(octaves_to_diplay=3)
         while game.is_running:
             print(game.run())
         pg.quit()
     except KeyboardInterrupt:
-        color_print("red", "\nKeyboard Interrupt...")
-    color_print("green", "Goodbye buzzer piano!")
+        print(f"{Fore.BLUE}\nKeyboard Interrupt...{Fore.RESET}")
+    print(f"{Fore.GREEN}Goodbye buzzer piano!{Fore.RESET}")
