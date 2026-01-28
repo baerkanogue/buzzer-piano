@@ -32,9 +32,9 @@ class Key:
     def __init__(self, is_white: bool) -> None:
         self.is_white: bool = is_white
         self.is_pressed: bool = False
-        self.hitbox: pg.Rect = (
-            self.get_sprite().get_rect().inflate(self.white_keys_padding_pixels, 0)
-        )
+        self.hitbox: pg.Rect = self.get_sprite().get_rect()
+        if self.is_white:
+            self.hitbox = self.hitbox.inflate(self.white_keys_padding_pixels, 0.0)
         self.position: Vector2
         self.note: str
 
