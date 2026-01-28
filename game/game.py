@@ -26,8 +26,8 @@ class Key:
     white_key_full_width: int = white_key.get_width() + white_keys_padding_pixels
     black_width: int = black_key.get_width()
 
-    white_notes = ("do", "re", "mi", "fa", "sol", "la", "si")
-    black_notes = ("do#", "fa#", "fa#", "sol#", "la#")
+    white_notes = (32.69, 36.68, 41.2, 43.64, 48.98, 55.0, 61.73)
+    black_notes = (34.62, 38.84, 46.21, 51.87, 58.24)
 
     def __init__(self, is_white: bool) -> None:
         self.is_white: bool = is_white
@@ -36,7 +36,7 @@ class Key:
         if self.is_white:
             self.hitbox = self.hitbox.inflate(self.white_keys_padding_pixels, 0.0)
         self.position: Vector2
-        self.note: str
+        self.note: float
 
     def get_sprite(self) -> pg.Surface:
         if self.is_white:
@@ -57,6 +57,9 @@ class Key:
         """
 
         self.hitbox.topleft = (int(self.position.x), int(self.position.y))
+
+    def set_note_octave(self, frequency: float, octave: int) -> None:
+        self.note = frequency * (2**octave)
 
     @classmethod
     def convert_alpha(cls) -> None:
@@ -110,7 +113,7 @@ class Game:
 
         self.is_running: bool = True
 
-    def run(self) -> str | None:
+    def run(self) -> float:
         """
         Main loop for the game.
 
@@ -138,9 +141,7 @@ class Game:
 
         return pg.display.set_mode(window_size)
 
-    def get_note(
-        self, white_keys_list: list[Key], black_keys_list: list[Key]
-    ) -> str | None:
+    def get_note(self, white_keys_list: list[Key], black_keys_list: list[Key]) -> float:
         mouse_position: tuple[int, int] = pg.mouse.get_pos()
         lmb_pressed: bool = pg.mouse.get_pressed()[0]
 
@@ -158,6 +159,8 @@ class Game:
             if key.hitbox.collidepoint(mouse_position) and lmb_pressed:
                 key.is_pressed = True
                 return key.note
+
+        return 0.0
 
     def update(self, keys: list[Key], screen: pg.Surface) -> None:
         """
@@ -225,6 +228,7 @@ class Game:
 
         # all white keys need to be drawn first
         white_index: int = 0
+        BASE_OCTAVE: int = 3
         for octave_index in range(octaves_to_display):
             for key in octave_layout:
                 match key:
@@ -234,7 +238,12 @@ class Game:
 
                         new_white_key: Key = Key(is_white=True)
                         new_white_key.position = Vector2(white_posx, white_posy)
-                        new_white_key.note = f"{Key.white_notes[white_index % (len(Key.white_notes))]}_{octave_index}"
+                        note_base_frequency: float = Key.white_notes[
+                            white_index % len(Key.white_notes)
+                        ]
+                        new_white_key.set_note_octave(
+                            note_base_frequency, BASE_OCTAVE + octave_index
+                        )
 
                         keys_list.append(new_white_key)
 
@@ -258,7 +267,12 @@ class Game:
 
                         new_black_key: Key = Key(is_white=False)
                         new_black_key.position = Vector2(black_posx, black_posy)
-                        new_black_key.note = f"{Key.black_notes[black_index % (len(Key.black_notes))]}_{octave_index}"
+                        note_base_frequency = Key.black_notes[
+                            black_index % (len(Key.black_notes))
+                        ]
+                        new_black_key.set_note_octave(
+                            note_base_frequency, BASE_OCTAVE + octave_index
+                        )
 
                         keys_list.append(new_black_key)
                         black_index += 1
