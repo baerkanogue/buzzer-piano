@@ -1,2 +1,5 @@
 colorama==0.4.6
 pygame==2.6.1
+PyQt6==6.10.2
+PyQt6-Qt6==6.10.1
+PyQt6_sip==13.11.0
