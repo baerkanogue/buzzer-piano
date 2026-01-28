@@ -1,0 +1,41 @@
+import sys
+from machine import Pin, PWM
+
+
+def main() -> None:
+    MAX_U16: int = (1 << 16) - 1
+    gpio_pin: int = get_gpio_pin()
+
+    buzzer_pin: Pin = Pin(gpio_pin)
+    buzzer_pwm: PWM = PWM(buzzer_pin, freq=500, duty_u16=0)
+
+    print("Listening for piano input...")
+    while True:
+        line_input = sys.stdin.readline().strip()
+        frequency_input: int = 0
+        try:
+            frequency_input = int(float(line_input))
+        except ValueError as error:
+            print(f"Invalid frequency input, error: {error}")
+
+        if frequency_input <= 0:
+            buzzer_pwm.freq(frequency_input)
+            buzzer_pwm.duty_u16(MAX_U16 // 2)
+        else:
+            buzzer_pwm.duty_u16(0)
+
+
+def get_gpio_pin() -> int:
+    while True:
+        try:
+            gpio_pin = int(input("Enter the buzzer's GPIO pin: "))
+            return gpio_pin
+        except ValueError as error:
+            print(f"Invalid GPIO pin number, error: {error}")
+
+
+if __name__ == "__main__":
+    try:
+        main()
+    except KeyboardInterrupt:
+        print("\nKeyboard Interrupt...")
