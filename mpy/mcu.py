@@ -1,4 +1,5 @@
 import sys
+import struct
 from machine import Pin, PWM
 
 
@@ -12,11 +13,11 @@ def main() -> None:
     print("Listening for piano input...")
     try:
         while True:
-            line_input = sys.stdin.readline().strip()
+            line_input = sys.stdin.buffer.read(4)
             frequency_input: int = 0
             try:
-                frequency_input = int(float(line_input))
-            except ValueError as error:
+                frequency_input = int(struct.unpack("<f", line_input)[0])
+            except Exception as error:
                 print(f"Invalid frequency input, error: {error}")
 
             if frequency_input <= 0:
