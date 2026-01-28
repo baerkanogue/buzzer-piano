@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>223</width>
-    <height>192</height>
+    <width>338</width>
+    <height>184</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -15,17 +15,21 @@
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout">
-    <item row="0" column="0">
+    <item row="1" column="0">
      <layout class="QVBoxLayout" name="verticalLayout">
       <item>
-       <layout class="QHBoxLayout" name="horizontalLayout">
+       <layout class="QHBoxLayout" name="horizontalLayout_2">
         <item>
-         <widget class="QSpinBox" name="gpio_spin_box"/>
+         <widget class="QSpinBox" name="octaves_spin_box">
+          <property name="minimum">
+           <number>1</number>
+          </property>
+         </widget>
         </item>
         <item>
-         <widget class="QLabel" name="gpio_pin_label">
+         <widget class="QLabel" name="octaves_label">
           <property name="text">
-           <string>GPIO pin</string>
+           <string>Octaves</string>
           </property>
           <property name="alignment">
            <set>Qt::AlignmentFlag::AlignCenter</set>
@@ -45,11 +49,15 @@
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="done_button">
-        <property name="text">
-         <string>DONE</string>
-        </property>
-       </widget>
+       <layout class="QVBoxLayout" name="verticalLayout_3">
+        <item>
+         <widget class="QPushButton" name="done_button">
+          <property name="text">
+           <string>DONE</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
       </item>
      </layout>
     </item>
@@ -60,7 +68,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>223</width>
+     <width>338</width>
      <height>30</height>
     </rect>
    </property>
