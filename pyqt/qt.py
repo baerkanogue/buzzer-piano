@@ -1,7 +1,9 @@
-import sys
-import pyqt.main_ui as ui
-from PyQt6 import QtCore, QtGui, QtWidgets
+from PyQt6 import QtGui, QtWidgets, QtCore
 from dataclasses import dataclass
+from pathlib import Path
+import pyqt.main_ui as ui
+import sys
+import serial
 
 
 @dataclass
@@ -18,7 +20,8 @@ class Window:
         self.ui: ui.Ui_MainWindow = ui.Ui_MainWindow()
         self.ui.setupUi(self.window)
 
-        # TODO: implement app icon
+        self.icon_path: Path = Path("misc", "buzzer.icon")
+        self.window.setWindowIcon(QtGui.QIcon(str(self.icon_path)))
 
         self.ui.done_button.pressed.connect(self._on_connect_button_pressed)
 
@@ -41,6 +44,14 @@ class Window:
     def _on_connect_button_pressed(self) -> None:
         octaves: int = self.ui.octaves_spin_box.value()
         mcu_port: str = self.ui.port_line_edit.text()
+
+        try:
+            serial_port: serial.Serial = serial.Serial(mcu_port)
+        except serial.SerialException:
+            self.ui.done_button.setText("Invalid port, try again...")
+            QtCore.QTimer.singleShot(1500, self._reset_done_button_text)
+            return
+
         self.runtime_data = RuntimeData(octaves, mcu_port)
 
         self.is_done_button_pressed = True
@@ -49,6 +60,9 @@ class Window:
     def _on_window_close(self, event: QtGui.QCloseEvent) -> None:
         self.is_window_closed = True
         event.accept()
+
+    def _reset_done_button_text(self) -> None:
+        self.ui.done_button.setText("DONE")
 
 
 if __name__ == "__main__":

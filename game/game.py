@@ -94,6 +94,8 @@ class Game:
     def __init__(self, octaves_to_diplay: int) -> None:
         pg.init()
         pg.display.set_caption("Buzzer Piano")
+        self.set_icon()
+
         self.OCTAVES_TO_DISPLAY: int = octaves_to_diplay
         self.screen: pg.Surface = self.init_screen(self.OCTAVES_TO_DISPLAY)
 
@@ -277,13 +279,18 @@ class Game:
                         keys_list.append(new_black_key)
                         black_index += 1
 
+    def set_icon(self) -> None:
+        icon_path: Path = Path("misc", "buzzer.icon")
+        icon: pg.Surface = pg.image.load(icon_path)
+        pg.display.set_icon(icon)
+
 
 if __name__ == "__main__":
     print(f"{Fore.GREEN}Starting buzzer piano!{Fore.RESET}")
     try:
         game: Game = Game(octaves_to_diplay=3)
         while game.is_running:
-            print(game.run())
+            print(f"Playing: {game.run()}")
         pg.quit()
     except KeyboardInterrupt:
         print(f"{Fore.BLUE}\nKeyboard Interrupt...{Fore.RESET}")
