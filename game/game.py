@@ -290,7 +290,7 @@ if __name__ == "__main__":
     try:
         game: Game = Game(octaves_to_diplay=3)
         while game.is_running:
-            print(f"Playing: {game.run()}")
+            print(f"Playing: {game.run()}Hz")
         pg.quit()
     except KeyboardInterrupt:
         print(f"{Fore.BLUE}\nKeyboard Interrupt...{Fore.RESET}")
