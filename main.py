@@ -19,11 +19,11 @@ def main():
         return
 
     game: Game = Game(octaves_to_diplay=runtime_data.octaves)
+    print(f"{Fore.GREEN}Ready to send data...")
     while game.is_running:
         played_frequency: float = game.run()
         packed_data = struct.pack("<f", played_frequency)
         serial_port.write(packed_data)
-        print(played_frequency)
     pg.quit()
 
 

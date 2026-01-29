@@ -20,7 +20,7 @@ def main() -> None:
             except Exception as error:
                 print(f"Invalid frequency input, error: {error}")
 
-            if frequency_input <= 0:
+            if frequency_input > 0:
                 buzzer_pwm.freq(frequency_input)
                 buzzer_pwm.duty_u16(MAX_U16 // 2)
             else:
