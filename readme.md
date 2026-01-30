@@ -68,6 +68,7 @@ pip install -r requirements.txt
 ```
 
 #### Or compile from source:
+#### Linux
 ```bash
 pyinstaller \
 --onefile \
@@ -75,6 +76,8 @@ pyinstaller \
 --add-data "game/assets:game/assets" \
 --name "buzzer_piano" \
 main.py
+
+chmod +x dist/buzzer_piano
 ```
 
 ### Microcontroller

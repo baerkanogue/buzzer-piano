@@ -286,7 +286,7 @@ class Game:
 
     def set_icon(self) -> None:
         icon_path: Path = Path("misc", "buzzer.icon")
-        icon: pg.Surface = pg.image.load(icon_path)
+        icon: pg.Surface = pg.image.load(resource_path(str(icon_path)))
         pg.display.set_icon(icon)
 
 
