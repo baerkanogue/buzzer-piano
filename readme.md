@@ -52,7 +52,10 @@ The microcontroller is now ready to receive note data from the virtual piano.
 
 ## Requirements
 ### Computer
-#### Run from source :
+#### Use the binary:
+TODO
+
+#### Or run from source:
 - Python
 - PyQt6
 - Pygame
@@ -63,8 +66,16 @@ Install dependencies:
 ```bash
 pip install -r requirements.txt
 ```
-#### Or use the binary:
-TODO
+
+#### Or compile from source:
+```bash
+pyinstaller \
+--onefile \
+--add-data "misc/:misc" \
+--add-data "game/assets:game/assets" \
+--name "buzzer_piano" \
+main.py
+```
 
 ### Microcontroller
 - Micropython

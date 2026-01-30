@@ -1,10 +1,10 @@
-import pygame as pg
-from pygame.math import Vector2
-from pathlib import Path
-from colorama import Fore
-from typing import Any
-from dataclasses import dataclass
 from path_resolver import resource_path
+from dataclasses import dataclass
+from pygame.math import Vector2
+from colorama import Fore
+from pathlib import Path
+from typing import Any
+import pygame as pg
 
 
 class Key:
