@@ -1,4 +1,5 @@
 from PyQt6 import QtGui, QtWidgets, QtCore
+from path_resolver import resource_path
 from dataclasses import dataclass
 from pathlib import Path
 import pyqt.main_ui as ui
@@ -21,7 +22,7 @@ class Window:
         self.ui.setupUi(self.window)
 
         self.icon_path: Path = Path("misc", "buzzer.icon")
-        self.window.setWindowIcon(QtGui.QIcon(str(self.icon_path)))
+        self.window.setWindowIcon(QtGui.QIcon(str(resource_path(str(self.icon_path)))))
 
         self.ui.done_button.pressed.connect(self._on_connect_button_pressed)
 

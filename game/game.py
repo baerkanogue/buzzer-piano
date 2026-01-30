@@ -4,6 +4,7 @@ from pathlib import Path
 from colorama import Fore
 from typing import Any
 from dataclasses import dataclass
+from path_resolver import resource_path
 
 
 class Key:
@@ -17,10 +18,14 @@ class Key:
     white_key_pressed_path: Path = Path("game", "assets", "white_pressed.png")
     black_key_pressed_path: Path = Path("game", "assets", "black_pressed.png")
 
-    white_key: pg.Surface = pg.image.load(white_key_path)
-    black_key: pg.Surface = pg.image.load(black_key_path)
-    white_key_pressed: pg.Surface = pg.image.load(white_key_pressed_path)
-    black_key_pressed: pg.Surface = pg.image.load(black_key_pressed_path)
+    white_key: pg.Surface = pg.image.load(resource_path(str(white_key_path)))
+    black_key: pg.Surface = pg.image.load(resource_path(str(black_key_path)))
+    white_key_pressed: pg.Surface = pg.image.load(
+        resource_path(str(white_key_pressed_path))
+    )
+    black_key_pressed: pg.Surface = pg.image.load(
+        resource_path(str(black_key_pressed_path))
+    )
 
     white_keys_padding_pixels: int = 4
     white_key_full_width: int = white_key.get_width() + white_keys_padding_pixels
