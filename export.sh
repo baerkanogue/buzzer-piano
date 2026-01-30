@@ -13,7 +13,7 @@ mv dist/buzzer_piano export/buzzer_piano
 cp misc/modules_licenses.txt export/licenses.txt
 
 cd export
-tar -czvf buzzer_piano_VERSION.tar.gz .
+tar -czvf bp_linux_VERSION.tar.gz .
 rm buzzer_piano
 rm licenses.txt
 cd -

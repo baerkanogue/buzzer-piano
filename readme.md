@@ -53,7 +53,7 @@ The microcontroller is now ready to receive note data from the virtual piano.
 ## Requirements
 ### Computer
 #### Use the binary:
-TODO
+[See Releases](https://github.com/baerkanogue/buzzer-piano/releases/)
 
 #### Or run from source:
 - Python
@@ -68,7 +68,7 @@ pip install -r requirements.txt
 ```
 
 #### Or compile from source:
-#### Linux
+##### Linux
 ```bash
 pyinstaller \
 --onefile \
@@ -78,6 +78,18 @@ pyinstaller \
 main.py
 
 chmod +x dist/buzzer_piano
+```
+
+#### Windows
+```pwsh
+pyinstaller \
+--onefile \
+--noconsole \
+--icon=misc\buzzer.icon \
+--add-data "misc\;misc" \
+--add-data "game\assets;game\assets" \
+--name "buzzer_piano." \
+main.py
 ```
 
 ### Microcontroller
