@@ -43,7 +43,7 @@ The application is then ready to send note data to the microcontroller.
 Copy the mcu.py as the main script on the board.
 Exemple using mpremote:
 ```bash
-mpremote cp mpy/mcy.py :main.py
+mpremote cp mpy/mcu.py :main.py
 ```
 Open the REPL. The program will prompt you to choose a GPIO pin for the buzzer.
 Enter the number of the pin connected to the passive piezo buzzer.
