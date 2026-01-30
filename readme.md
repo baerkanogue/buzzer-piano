@@ -1,14 +1,14 @@
 # BUZZER PIANO
 
-**A computer-controlled virtual piano that plays real sound through a microcontroller-driven piezo buzzer over a USB serial connection.**
+**A computer-controlled virtual piano that plays sound through a microcontroller-driven piezo buzzer over a USB serial connection.**
 
 The system is split into two parts:
 - **Computer application** — Graphical piano interface and serial controller
-- **Microcontroller firmware** — Receives note data and generates sound using PWM
+- **Microcontroller mpy script** — Receives note data and generates sound using PWM
 
 ## Overview
 
-This project allows a user to play a virtual piano on a computer while producing physical sound through a passive piezo buzzer connected to a microcontroller (ESP, Raspberry Pi Pico, or similar).
+Allows the user to play a virtual piano on a computer while producing physical sound through a passive piezo buzzer connected to a microcontroller (ESP, Raspberry Pi Pico, or similar).
 
 1. The desktop app connects to a microcontroller over a serial (USB) port.
 2. A virtual piano keyboard is displayed.
@@ -20,11 +20,9 @@ This project allows a user to play a virtual piano on a computer while producing
     - Drives a passive piezo buzzer to produce the sound
 
 ## Features
-- Configurable number of piano octaves
 - Graphical piano interface
-- Serial communication between PC and MCU
-- Real-time tone generation using PWM
-- Hardware-agnostic design (works with multiple MCU types)
+- Configurable number of piano octaves
+- User-defined MCU pin via REPL
 
 ## Running the project
 ### Computer side
