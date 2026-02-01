@@ -29,10 +29,7 @@ Allows the user to play a virtual piano on a computer while producing physical s
 Run the main script or executable. A GUI window will open and prompt you for the following information:
 1. **Number of octaves** to display on the virtual piano (starting from octave 3)
 2. **Serial port**, for example:
-    - **Linux**:
-        > */dev/ttyACM0*
-    - **Windows**:
-        > *COM4*
+    > */dev/ttyACM0*
 
 After clicking **DONE**, the application will attempt to connect to the microcontroller.
 If the connection is successful, the virtual piano interface will appear.
@@ -50,13 +47,13 @@ Enter the number of the pin connected to the passive piezo buzzer.
 
 The microcontroller is now ready to receive note data from the virtual piano.
 
-## Requirements
+## Building / Running
 ### Computer
 #### Use the binary:
 [See Releases](https://github.com/baerkanogue/buzzer-piano/releases/)
 
 #### Or run from source:
-- Python
+- Python 3.13
 - PyQt6
 - Pygame
 - Pyserial
@@ -64,11 +61,12 @@ The microcontroller is now ready to receive note data from the virtual piano.
 
 Install dependencies:
 ```bash
+python -m venv .venv
 pip install -r requirements.txt
 ```
 
 #### Or compile from source:
-##### Linux
+
 ```bash
 pyinstaller \
 --onefile \
@@ -78,18 +76,6 @@ pyinstaller \
 main.py
 
 chmod +x dist/buzzer_piano
-```
-
-#### Windows
-```pwsh
-pyinstaller \
---onefile \
---noconsole \
---icon=misc\buzzer.icon \
---add-data "misc\;misc" \
---add-data "game\assets;game\assets" \
---name "buzzer_piano." \
-main.py
 ```
 
 ### Microcontroller
