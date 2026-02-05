@@ -6,6 +6,10 @@ The system is split into two parts:
 - **Computer application** — Graphical piano interface and serial controller
 - **Microcontroller mpy script** — Receives note data and generates sound using PWM
 
+
+https://github.com/user-attachments/assets/6d5003f8-bf1f-4924-867a-da4762076cf4
+
+
 ## Overview
 
 Allows the user to play a virtual piano on a computer while producing physical sound through a passive piezo buzzer connected to a microcontroller (ESP, Raspberry Pi Pico, or similar).
