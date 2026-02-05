@@ -6,13 +6,11 @@ The system is split into two parts:
 - **Computer application** — Graphical piano interface and serial controller
 - **Microcontroller mpy script** — Receives note data and generates sound using PWM
 
-
 https://github.com/user-attachments/assets/6d5003f8-bf1f-4924-867a-da4762076cf4
-
 
 ## Overview
 
-Allows the user to play a virtual piano on a computer while producing physical sound through a passive piezo buzzer connected to a microcontroller (ESP, Raspberry Pi Pico, or similar).
+Play a virtual piano on the computer while producing physical sound through a passive piezo buzzer connected to a microcontroller (ESP, Raspberry Pi Pico, or similar).
 
 1. The desktop app connects to a microcontroller over a serial (USB) port.
 2. A virtual piano keyboard is displayed.
@@ -33,9 +31,9 @@ Allows the user to play a virtual piano on a computer while producing physical s
 Run the main script or executable. A GUI window will open and prompt you for the following information:
 1. **Number of octaves** to display on the virtual piano (starting from octave 3)
 2. **Serial port**, for example:
-    > */dev/ttyACM0*
+    *`/dev/ttyACM0`*
 
-After clicking **DONE**, the application will attempt to connect to the microcontroller.
+After clicking **`DONE`**, the application will attempt to connect to the microcontroller.
 If the connection is successful, the virtual piano interface will appear.
 
 The application is then ready to send note data to the microcontroller.
@@ -57,11 +55,13 @@ The microcontroller is now ready to receive note data from the virtual piano.
 [See Releases](https://github.com/baerkanogue/buzzer-piano/releases/)
 
 #### Or run from source:
-- Python 3.13
-- PyQt6
-- Pygame
-- Pyserial
-- Colorama  
+| Dependancy | Version |
+|--------|---------|
+| Python | 3.13.11 |
+| PyQt6 | 6.10.2 |
+| Pygame | 2.6.1 |
+| Pyserial | 3.5 |
+| Colorama | 0.4.6 |
 
 Install dependencies:
 ```bash
