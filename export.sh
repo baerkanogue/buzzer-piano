@@ -17,6 +17,7 @@ cd export
 tar -czvf bp_linux_VERSION.tar.gz .
 rm buzzer_piano
 rm licenses.txt
+rm mcu.py
 cd -
 
 echo Done
