@@ -6,9 +6,10 @@ The system is split into two parts:
 - **Computer application** — Graphical piano interface and serial controller
 - **Microcontroller mpy script** — Receives note data and generates sound using PWM
 
+Due to Windows COM port exclusive-access limitations, **this only works on Linux.**
+
 https://github.com/user-attachments/assets/6d5003f8-bf1f-4924-867a-da4762076cf4
 
-Due to Windows COM port exclusive-access limitations, **this only works on Linux.**
 
 ## Overview
 
