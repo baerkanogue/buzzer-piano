@@ -125,7 +125,7 @@ class Game:
         Main loop for the game.
 
         :return: Returns the note played by the piano.
-        :rtype: str | None
+        :rtype: str
         """
         self.screen.fill("black")
         event_res: dict[Any, Any] = self.event_handler()
