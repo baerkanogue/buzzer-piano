@@ -8,6 +8,8 @@ The system is split into two parts:
 
 https://github.com/user-attachments/assets/6d5003f8-bf1f-4924-867a-da4762076cf4
 
+Due to Windows COM port exclusive-access limitations, **this only works on Linux.**
+
 ## Overview
 
 Play a virtual piano on the computer while producing physical sound through a passive piezo buzzer connected to a microcontroller (ESP, Raspberry Pi Pico, or similar).
