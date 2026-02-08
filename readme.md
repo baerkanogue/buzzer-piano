@@ -10,20 +10,6 @@ Due to Windows COM port exclusive-access limitations, **this only works on Linux
 
 https://github.com/user-attachments/assets/6d5003f8-bf1f-4924-867a-da4762076cf4
 
-
-## Overview
-
-Play a virtual piano on the computer while producing physical sound through a passive piezo buzzer connected to a microcontroller (ESP, Raspberry Pi Pico, or similar).
-
-1. The desktop app connects to a microcontroller over a serial (USB) port.
-2. A virtual piano keyboard is displayed.
-3. When a key is pressed with the mouse:
-    - The corresponding musical note is sent over serial.
-4. The microcontroller:
-    - Receives the note data
-    - Generates a PWM signal at the correct frequency
-    - Drives a passive piezo buzzer to produce the sound
-
 ## Features
 - Graphical piano interface
 - Configurable number of piano octaves
@@ -53,8 +39,12 @@ Enter the number of the pin connected to the passive piezo buzzer.
 The microcontroller is now ready to receive note data from the virtual piano.
 
 ## Building / Running
+### Microcontroller
+- [Micropython](https://micropython.org/download/)
+- [Passive piezo buzzer](https://deepbluembedded.com/active-buzzer-vs-passive-buzzer/)
+
 ### Computer
-#### Use the binary:
+#### Use the binary: 
 **[See Releases](https://github.com/baerkanogue/buzzer-piano/releases/)**
 
 #### Or run from source:
@@ -65,9 +55,9 @@ The microcontroller is now ready to receive note data from the virtual piano.
 |  Pygame    | 2.6.1   | Virtual piano framework
 |  Pyserial  | 3.5     | Sending data to MCU
 |  Mpremote  | 1.27    | Sending script to MCU
-|  Colorama  | 0.4.6   | stdout
+|  Colorama  | 0.4.6   | stdout coloring (debug)
 
-**Install dependencies:**
+Install dependencies:
 ```bash
 python -m venv .venv
 source .venv/bin/activate
@@ -79,14 +69,10 @@ pip install -r requirements.txt
 ```bash
 pyinstaller \
 --onefile \
---add-data "misc/:misc" \
+--add-data "misc:misc" \
 --add-data "game/assets:game/assets" \
 --name "buzzer_piano" \
 main.py
 
 chmod +x dist/buzzer_piano
 ```
-
-### Microcontroller
-- [Micropython](https://micropython.org/download/)
-- [Passive piezo buzzer](https://deepbluembedded.com/active-buzzer-vs-passive-buzzer/)
