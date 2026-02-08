@@ -11,7 +11,7 @@ mkdir export
 
 mv dist/buzzer_piano export/buzzer_piano
 cp misc/modules_licenses.txt export/licenses.txt
-cp mpy/mcu.py export/mcu.py
+cp mpy/mcu_linux.py export/mcu.py
 
 cd export
 tar -czvf bp_linux_VERSION.tar.gz .
