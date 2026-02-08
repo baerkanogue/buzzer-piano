@@ -238,51 +238,48 @@ class Game:
         BASE_OCTAVE: int = 3
         for octave_index in range(octaves_to_display):
             for key in octave_layout:
-                match key:
-                    case "w":
-                        white_posx: float = Key.white_key_full_width * white_index
-                        white_posy: float = 0.0
+                if key == "w":
+                    white_posx: float = Key.white_key_full_width * white_index
+                    white_posy: float = 0.0
 
-                        new_white_key: Key = Key(is_white=True)
-                        new_white_key.position = Vector2(white_posx, white_posy)
-                        note_base_frequency: float = Key.white_notes[
-                            white_index % len(Key.white_notes)
-                        ]
-                        new_white_key.set_note_octave(
-                            note_base_frequency, BASE_OCTAVE + octave_index
-                        )
+                    new_white_key: Key = Key(is_white=True)
+                    new_white_key.position = Vector2(white_posx, white_posy)
+                    note_base_frequency: float = Key.white_notes[
+                        white_index % len(Key.white_notes)
+                    ]
+                    new_white_key.set_note_octave(
+                        note_base_frequency, BASE_OCTAVE + octave_index
+                    )
 
-                        keys_list.append(new_white_key)
+                    keys_list.append(new_white_key)
 
-                        white_index += 1
-                    case "b":
-                        pass
+                    white_index += 1
+
         white_index: int = 0
         black_index: int = 0
         for octave_index in range(octaves_to_display):
             for key in octave_layout:
-                match key:
-                    case "w":
-                        white_index += 1
-                    case "b":
-                        black_posx: float = (
-                            Key.white_key_full_width * white_index
-                            - (Key.black_width // 2)
-                            - 2
-                        )
-                        black_posy: float = 0.0
+                if key == "w":
+                    white_index += 1
+                else:
+                    black_posx: float = (
+                        Key.white_key_full_width * white_index
+                        - (Key.black_width // 2)
+                        - 2
+                    )
+                    black_posy: float = 0.0
 
-                        new_black_key: Key = Key(is_white=False)
-                        new_black_key.position = Vector2(black_posx, black_posy)
-                        note_base_frequency = Key.black_notes[
-                            black_index % (len(Key.black_notes))
-                        ]
-                        new_black_key.set_note_octave(
-                            note_base_frequency, BASE_OCTAVE + octave_index
-                        )
+                    new_black_key: Key = Key(is_white=False)
+                    new_black_key.position = Vector2(black_posx, black_posy)
+                    note_base_frequency = Key.black_notes[
+                        black_index % (len(Key.black_notes))
+                    ]
+                    new_black_key.set_note_octave(
+                        note_base_frequency, BASE_OCTAVE + octave_index
+                    )
 
-                        keys_list.append(new_black_key)
-                        black_index += 1
+                    keys_list.append(new_black_key)
+                    black_index += 1
 
     def set_icon(self) -> None:
         icon_path: Path = Path("misc", "buzzer.icon")
