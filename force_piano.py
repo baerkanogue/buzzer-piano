@@ -1,28 +1,23 @@
-from pyqt.qt import Window, RuntimeData
 from game.game import Game
 from colorama import Fore
 import pygame as pg
 import struct
-import serial
 
 
 def main():
-    launcher: Window = Window()
-    runtime_data: RuntimeData = launcher.run()
+    while True:
+        try:
+            octaves = int(input("How many octaves: "))
+            break
+        except ValueError as error:
+            print(f"Error: {error}")
 
-    mcu_port: str = runtime_data.mcu_port
-    try:
-        serial_port: serial.Serial = serial.Serial(mcu_port, 115200, timeout=1)
-    except serial.SerialException as error:
-        print(f"{Fore.RED}Invalid MCU port: {error}{Fore.RESET}")
-        return
-
-    game: Game = Game(octaves_to_diplay=runtime_data.octaves)
+    game: Game = Game(octaves_to_diplay=octaves)
     print(f"{Fore.GREEN}Ready to send data...{Fore.RESET}")
     while game.is_running:
         played_frequency: float = game.run()
         packed_data = struct.pack("<f", played_frequency)
-        serial_port.write(packed_data)
+        print(f"{played_frequency}, {packed_data}")
     pg.quit()
 
 
