@@ -1,26 +1,26 @@
 # BUZZER PIANO
 
-**A computer-controlled virtual piano that plays sound through a microcontroller-driven piezo buzzer over a USB serial connection.**
 
-The system is split into two parts:
-- **Desktop application** — Graphical piano interface and serial controller
-- **MCU Micropython script** — Receives note data and generates sound using PWM
+**Play piano on a physical piezo-electric passive buzzer using a serial-connected MCU.**
+
+## Features
+- **Computer application**
+    - Graphical piano interface and serial controller
+    - Configurable number of piano octaves
+- **Microcontroller mpy script**
+    - Receives note data and controls the buzzer
+    - User-defined MCU pin via REPL on Linux
 
 
 https://github.com/user-attachments/assets/6d5003f8-bf1f-4924-867a-da4762076cf4
 
-## Features
-- Graphical piano interface
-- Configurable number of piano octaves
-- User-defined MCU pin via REPL (Linux)
-
 ## Running the project
 ### MCU side
 1. Copy the **OS-appropriate** mcu.py as the main script on the board.
-Exemple using mpremote:
-```bash
-mpremote cp mpy/mcu_linux.py :main.py
-```
+    ```bash
+    # example using mpremote, copying the linux script
+    mpremote cp mpy/mcu_linux.py :main.py
+    ```
 2. Configure the GPIO pin used for the buzzer:
     - **Linux**
         - Open the REPL after flashing the script.
@@ -62,18 +62,19 @@ mpremote cp mpy/mcu_linux.py :main.py
 |  Mpremote  | 1.27    | Sending script to MCU
 |  Colorama  | 0.4.6   | stdout coloring (debug)
 
-Install dependencies:
 ```bash
 # Linux
 python -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
+python main.py
 ```
 ```pwsh
 # Windows (Powershell)
 python -m venv .venv
 .venv\Scripts\activate
 pip install -r requirements.txt
+python main.py
 ```
 
 #### Or compile from source:
